@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Lambda function write bucket.
+Resources:
+  primer:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: exercise-lambda
+      Runtime: python3.9
+      Role: arn:aws:iam::010928204947:role/service-role/my_demo_lambda-role-ytzvn809
+      Handler: lambda_function.lambda_handler
+      Environment:
+        Variables:
+          PARAMETER1: Name
+          PARAMETER2: Value
+      Code:
+        S3Bucket: dxc-home-assignment
+        S3Key: exercise_lambda.zip
+      Description: List Amazon S3 buckets in us-east-1.
+      TracingConfig:
+        Mode: Active
+
+  permission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref primer
+      Action: lambda:InvokeFunction
+      Principal: 010928204947
